@@ -14,12 +14,12 @@ const Action = union(enum) {
 };
 
 const MockInterpreter = struct {
-    const Self = @This();
-
     actions: std.ArrayList(Action),
 
+    const Self = @This();
+
     fn init() Self {
-        return Self{.actions = std.ArrayList(Action).init(std.testing.allocator)};
+        return .{.actions = std.ArrayList(Action).init(std.testing.allocator)};
     }
 
     fn deinit(self: *Self) void {

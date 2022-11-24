@@ -91,7 +91,7 @@ pub fn Parser(comptime I: type) type {
         const Self = @This();
 
         pub fn init(interpreter: I) Self {
-            return Self{
+            return .{
                 .state = .ground,
                 .interpreter = interpreter,
                 .intermediates = StackArrayList(2, u8){},
