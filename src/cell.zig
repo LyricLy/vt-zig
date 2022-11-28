@@ -108,12 +108,16 @@ pub const PackedCell = struct {
         self.data = @ptrToInt(try OwnedCell.allocate(allocator));
     }
 
+    fn owned(self: Self) bool {
+        return self.deref().owner == self.deref();
+    }
+
     pub fn init() Self {
         return Self.from_small_cell(SmallCell{});
     }
 
     pub fn deinit(self: Self, allocator: std.mem.Allocator) void {
-        if (!self.is_small_cell()) allocator.destroy(self.deref());
+        if (!self.is_small_cell() and self.owned()) allocator.destroy(self.deref());
     }
 
     /// Copy assignment from a Cell. Allocates if `self` is a `SmallCell` and the input cannot be represented as one.
@@ -124,7 +128,7 @@ pub const PackedCell = struct {
                 return;
             } else |_| {}
         }
-        if (self.is_small_cell() or self.deref().owner != self.deref()) {
+        if (self.is_small_cell() or !self.owned()) {
             try self.allocate(allocator);
         }
         self.deref().inner = cell;
