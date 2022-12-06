@@ -8,7 +8,7 @@ pub const Colour = union(enum) {
 
 /// The style data each cell on the screen can hold.
 pub const Style = struct {
-    foreground: Colour,
-    background: Colour,
+    foreground: Colour = .default,
+    background: Colour = .default,
     // TODO: this should have more fields
 };

@@ -228,7 +228,7 @@ pub fn Parser(comptime I: type) type {
             switch (self.state) {
                 .ground => switch (byte) {
                     // TODO: UTF-8
-                    0x20...0x7F => self.interpreter.print(byte),
+                    0x20...0x7F => self.interpreter.print(@intCast(u7, byte)),
                     else => {},
                 },
                 .escape => self.state = switch (byte) {
